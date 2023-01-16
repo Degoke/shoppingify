@@ -14,6 +14,8 @@ export const mockAccount: Account = {
   updated_at: new Date(Date.now()),
   items: [mockItem!],
   categories: [mockCategory!],
+  lists: [],
+  list_items: [],
 };
 
 mockItem = {
@@ -25,6 +27,7 @@ mockItem = {
   name: 'pepper',
   image: '',
   note: 'A pepper',
+  list_items: [],
 };
 
 mockCategory = {

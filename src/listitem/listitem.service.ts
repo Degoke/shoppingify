@@ -6,15 +6,6 @@ import { ListItemRepository } from './repositories/listitem.repository';
 
 @Injectable()
 export class ListitemService {
-  /**
-   * update item count
-   * delete item
-   * complete item
-   *  check if list in completing state
-   * addItem to list
-   * create item
-   */
-
   constructor(
     private listitemRepository: ListItemRepository,
     private listService: ListService,
@@ -28,9 +19,6 @@ export class ListitemService {
         where: {
           item: {
             id: itemId,
-          },
-          account: {
-            id: userId,
           },
           list: {
             id: currentList.id,
@@ -64,7 +52,6 @@ export class ListitemService {
   async completeItem(itemId: string) {
     try {
       const item = await this.listitemRepository.findOneBy({ id: itemId });
-
       if (!item) {
         throw new BadRequestException('Item not found');
       }
@@ -74,7 +61,9 @@ export class ListitemService {
 
       await this.listitemRepository.save(item);
       return item;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   }
 
   async unCompleteItem(itemId: string) {
@@ -89,7 +78,9 @@ export class ListitemService {
 
       await this.listitemRepository.save(item);
       return item;
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
   }
 
   async deleteItem(id: string) {
@@ -113,6 +104,9 @@ export class ListitemService {
           item.count += 1;
           break;
         case ListitemUpdateMethods.DECREMENT:
+          if (item.count === 1) {
+            throw new BadRequestException('Item cannot be less than 1');
+          }
           item.count -= 1;
           break;
         default:

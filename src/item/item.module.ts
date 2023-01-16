@@ -9,5 +9,6 @@ import { AccountModule } from 'src/account/account.module';
   imports: [AccountModule, CategoryModule],
   controllers: [ItemController],
   providers: [ItemService, ItemRepository],
+  exports: [ItemService],
 })
 export class ItemModule {}

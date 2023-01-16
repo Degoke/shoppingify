@@ -12,18 +12,21 @@ export class ListController {
     return this.listService.findCurrentList(user.id);
   }
 
-  @Patch('complete/:id')
-  completeList(@Param('id') id: string) {
-    return this.listService.completeList(id);
+  @Patch('complete')
+  completeList(@Request() req: any) {
+    const { user } = req;
+    return this.listService.completeList(user.id);
   }
 
-  @Patch('cancel/:id')
-  cancelList(@Param('id') id: string) {
-    return this.listService.cancelList(id);
+  @Patch('cancel')
+  cancelList(@Request() req: any) {
+    const { user } = req;
+    return this.listService.cancelList(user.id);
   }
 
-  @Patch('update/:id')
-  updateList(@Param('id') id: string, @Body() updateListDto: UpdateListDto) {
-    return this.listService.updateList(id, updateListDto);
+  @Patch('update')
+  updateList(@Request() req: any, @Body() updateListDto: UpdateListDto) {
+    const { user } = req;
+    return this.listService.updateList(user.id, updateListDto);
   }
 }

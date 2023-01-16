@@ -20,12 +20,12 @@ export class ListitemController {
     return this.listitemService.addItemToList(id, user.id);
   }
 
-  @Patch('complete/id')
+  @Patch('complete/:id')
   markItemAsCompleted(@Param('id') id: string) {
     return this.listitemService.completeItem(id);
   }
 
-  @Patch('uncomplete/id')
+  @Patch('uncomplete/:id')
   unMarkItemAsCompleted(@Param('id') id: string) {
     return this.listitemService.unCompleteItem(id);
   }
@@ -35,8 +35,11 @@ export class ListitemController {
     return this.listitemService.deleteItem(id);
   }
 
-  @Patch('update/id')
-  updateItem(@Param('id') id: string, @Query() method: ListitemUpdateMethods) {
-    return this.listitemService.updateItem(id, method);
+  @Patch('update/:id')
+  updateItem(
+    @Param('id') id: string,
+    @Query() params: { method: ListitemUpdateMethods },
+  ) {
+    return this.listitemService.updateItem(id, params.method);
   }
 }

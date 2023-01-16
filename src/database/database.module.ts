@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { redisStore } from 'cache-manager-redis-store';
 import { Category } from 'src/category/entities/category.entity';
 import { Item } from 'src/item/entities/item.entity';
+import { List } from 'src/list/entities/list.entity';
+import { ListItem } from 'src/listitem/entities/listitem.entity';
 import { Account } from '../../src/account/entities/account.entity';
 
 @Module({
@@ -20,7 +22,7 @@ import { Account } from '../../src/account/entities/account.entity';
         password: configService.get('database.postgres.password'),
         database: configService.get('database.postgres.database'),
         ssl: configService.get('env') === 'production' ? true : false,
-        entities: [Account, Item, Category],
+        entities: [Account, Item, Category, List, ListItem],
         migrations: ['src/database/migrations/**/*.js'],
         cli: {
           migrationsDir: 'src/database/migrations',

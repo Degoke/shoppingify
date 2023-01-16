@@ -20,6 +20,7 @@ export class ListService {
             id: userId,
           },
         },
+        relations: ['items'],
       });
 
       if (!currentList) {
@@ -37,9 +38,16 @@ export class ListService {
     }
   }
 
-  async completeList(listId: string) {
+  async completeList(userId: string) {
     try {
-      const list = await this.listRepository.findOneBy({ id: listId });
+      const list = await this.listRepository.findOne({
+        where: {
+          is_current_list: true,
+          account: {
+            id: userId,
+          },
+        },
+      });
 
       if (!list) {
         throw new BadRequestException('List not found');
@@ -57,9 +65,16 @@ export class ListService {
     }
   }
 
-  async cancelList(listId: string) {
+  async cancelList(userId: string) {
     try {
-      const list = await this.listRepository.findOneBy({ id: listId });
+      const list = await this.listRepository.findOne({
+        where: {
+          is_current_list: true,
+          account: {
+            id: userId,
+          },
+        },
+      });
 
       if (!list) {
         throw new BadRequestException('List not found');
@@ -77,9 +92,16 @@ export class ListService {
     }
   }
 
-  async updateList(listId: string, updateListDto: UpdateListDto) {
+  async updateList(userId: string, updateListDto: UpdateListDto) {
     try {
-      const list = await this.listRepository.findOneBy({ id: listId });
+      const list = await this.listRepository.findOne({
+        where: {
+          is_current_list: true,
+          account: {
+            id: userId,
+          },
+        },
+      });
 
       if (!list) {
         throw new BadRequestException('List not found');
