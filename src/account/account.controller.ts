@@ -1,16 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { Public } from '../../src/common/decorators/public.decorator';
 import { AccountService } from './account.service';
 import { CreateAccountDto } from './dto/create-account.dto';
-import { UpdateAccountDto } from './dto/update-account.dto';
 
 @Controller('account')
 export class AccountController {

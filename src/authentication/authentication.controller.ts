@@ -1,19 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-  Logger,
-  Request,
-} from '@nestjs/common';
+import { Controller, Post, UseGuards, Request } from '@nestjs/common';
 import { Public } from '../../src/common/decorators/public.decorator';
 import { LocalAuthGaurd } from '../../src/common/gaurds/local_auth.gaurd';
 import { AuthenticationService } from './authentication.service';
-import { LoginDto } from './dto/login.dto';
 
 @Controller('authentication')
 export class AuthenticationController {

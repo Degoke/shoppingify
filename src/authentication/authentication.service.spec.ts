@@ -1,8 +1,4 @@
-import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AccountService } from '../../src/account/account.service';
-import { JWTStrategy } from '../../src/common/strategies/jwt.strategy';
-import { LocalStrategy } from '../../src/common/strategies/local.strategy';
 import { AuthenticationService } from './authentication.service';
 import { mockLOginDto, testingModule } from './mock';
 

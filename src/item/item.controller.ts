@@ -1,16 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Request,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Request } from '@nestjs/common';
 import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/create-item.dto';
-import { UpdateItemDto } from './dto/update-item.dto';
 
 @Controller('item')
 export class ItemController {
@@ -20,5 +10,10 @@ export class ItemController {
   create(@Body() createItemDto: CreateItemDto, @Request() req: any) {
     const { user } = req;
     return this.itemService.createItem(createItemDto, user.id);
+  }
+
+  @Get(':id')
+  getItem(@Param('id') id: string) {
+    return this.itemService.findItem(id);
   }
 }

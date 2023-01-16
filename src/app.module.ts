@@ -15,6 +15,7 @@ import { join } from 'path';
 import { ItemModule } from './item/item.module';
 import { ListModule } from './list/list.module';
 import { CategoryModule } from './category/category.module';
+import { ListitemModule } from './listitem/listitem.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { CategoryModule } from './category/category.module';
     ItemModule,
     ListModule,
     CategoryModule,
+    ListitemModule,
   ],
   controllers: [],
   providers: [

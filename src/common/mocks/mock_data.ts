@@ -1,5 +1,5 @@
 import { BaseEntity } from '../containers/base_entity';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 import { Account } from 'src/account/entities/account.entity';
 import { Category } from 'src/category/entities/category.entity';
 import { Item } from 'src/item/entities/item.entity';
@@ -12,35 +12,29 @@ export const mockAccount: Account = {
   password: bcrypt.hashSync('Test_password1', 10),
   created_at: new Date(Date.now()),
   updated_at: new Date(Date.now()),
-  items: [
-    mockItem!,
-  ],
-  categories: [
-    mockCategory!,
-  ]
+  items: [mockItem!],
+  categories: [mockCategory!],
 };
 
 mockItem = {
-    id: '1',
+  id: '1',
   created_at: new Date(Date.now()),
   updated_at: new Date(Date.now()),
   category: mockCategory!,
   account: mockAccount,
-  name: "pepper",
+  name: 'pepper',
   image: '',
   note: 'A pepper',
-}
+};
 
 mockCategory = {
-    id: '1',
-    created_at: new Date(Date.now()),
-    updated_at: new Date(Date.now()),
-    name: "vegetables",
-    items: [
-        mockItem,
-    ],
-    account:mockAccount
-}
+  id: '1',
+  created_at: new Date(Date.now()),
+  updated_at: new Date(Date.now()),
+  name: 'vegetables',
+  items: [mockItem],
+  account: mockAccount,
+};
 
 // export const mockBase: BaseEntity = {
 //   id: '1',

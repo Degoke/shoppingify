@@ -4,11 +4,9 @@ import {
   VersioningType,
 } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { exec } from 'child_process';
 import helmet from 'helmet';
 // import * as compression from 'compression';
 import { AppModule } from './app.module';
-import Logger from './logs/logger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,6 +33,6 @@ async function bootstrap() {
   // app.use(compression());
 
   // await runMigrations()
-  await app.listen(process.env.PORT!);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

@@ -6,7 +6,6 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LocalStrategy } from '../../src/common/strategies/local.strategy';
-import { AccountService } from 'src/account/account.service';
 import { JWTStrategy } from '../../src/common/strategies/jwt.strategy';
 
 @Module({

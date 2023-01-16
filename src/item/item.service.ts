@@ -3,7 +3,6 @@ import { AccountService } from 'src/account/account.service';
 import { CategoryService } from 'src/category/category.service';
 import checkIfValidUUID from 'src/utils/check_uuid';
 import { CreateItemDto } from './dto/create-item.dto';
-import { UpdateItemDto } from './dto/update-item.dto';
 import { ItemRepository } from './repositories/item.repository,';
 
 @Injectable()
@@ -54,5 +53,24 @@ export class ItemService {
 
   // async findItems() {}
 
-  // async findItem() {}
+  async findItem(id: string) {
+    try {
+      const item = await this.itemRepository.findOneBy({ id });
+      if (!item) {
+        throw new BadRequestException('Item not found');
+      }
+
+      return item;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteItem(id: string) {
+    try {
+      return await this.itemRepository.delete(id);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
