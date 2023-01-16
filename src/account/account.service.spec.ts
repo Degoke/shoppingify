@@ -12,7 +12,9 @@ describe('AccountService', () => {
   let accountRepository: any;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule(testingModule).compile();
+    const module: TestingModule = await Test.createTestingModule(
+      testingModule,
+    ).compile();
 
     service = module.get<AccountService>(AccountService);
     accountRepository = module.get(AccountRepository);
@@ -23,19 +25,23 @@ describe('AccountService', () => {
   });
 
   it('should find by email', async () => {
-    const response = await service.findByEmail(mockLOginDto.email)
-    expect(response).toBe(mockAccount)
-  })
+    const response = await service.findByEmail(mockLOginDto.email);
+    expect(response).toBe(mockAccount);
+  });
 
-  describe("create account", () => {
-    it('should throw exception when email exists', async() => {
-      await expect(service.createAccount(mockLOginDto)).rejects.toThrow(BadRequestException)
-    })
+  describe('create account', () => {
+    it('should throw exception when email exists', async () => {
+      await expect(service.createAccount(mockLOginDto)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
 
-    it("should create account when email does not exist", async () => {
-      accountRepository.findByEmail = jest.fn((email) => new Promise((resolve) => resolve(null)))
-      const response = await service.createAccount(mockCreateAccountDto)
-      expect(response.email).toBe(mockCreateAccountDto.email)
-    })
-  })
+    it('should create account when email does not exist', async () => {
+      accountRepository.findByEmail = jest.fn(
+        (email) => new Promise((resolve) => resolve(null)),
+      );
+      const response = await service.createAccount(mockCreateAccountDto);
+      expect(response.email).toBe(mockCreateAccountDto.email);
+    });
+  });
 });

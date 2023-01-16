@@ -26,9 +26,9 @@ async function bootstrap() {
     defaultVersion: '1',
   });
 
-  app.enableCors()
+  app.enableCors();
 
-  app.use(helmet())
+  app.use(helmet());
 
   // app.useLogger(app.get(Logger));
 

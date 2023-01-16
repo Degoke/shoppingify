@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { AccountService } from 'src/account/account.service';
+import { CategoryService } from 'src/category/category.service';
+import checkIfValidUUID from 'src/utils/check_uuid';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { ItemRepository } from './repositories/item.repository,';
 
 @Injectable()
 export class ItemService {
-  create(createItemDto: CreateItemDto) {
-    return 'This action adds a new item';
+  constructor(
+    private itemRepository: ItemRepository,
+    private accountService: AccountService,
+    private categoryService: CategoryService,
+  ) {}
+
+  async createItem(createItemDto: CreateItemDto, userId: string) {
+    try {
+      const dtoCategory = createItemDto.category;
+
+      let category;
+
+      const account = await this.accountService.findOne(userId);
+      if (!account) {
+        throw new BadRequestException('Account not found');
+      }
+
+      if (checkIfValidUUID(dtoCategory)) {
+        category = await this.categoryService.findOne(createItemDto.category);
+      }
+
+      if (!category) {
+        category = await this.categoryService.create(
+          {
+            name: createItemDto.category,
+          },
+          userId,
+        );
+      }
+
+      const newItem = await this.itemRepository.create({
+        ...createItemDto,
+        category,
+        account,
+      });
+
+      await this.itemRepository.save(newItem);
+
+      return newItem;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  findAll() {
-    return `This action returns all item`;
-  }
+  // async findItems() {}
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
-  }
-
-  update(id: number, updateItemDto: UpdateItemDto) {
-    return `This action updates a #${id} item`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} item`;
-  }
+  // async findItem() {}
 }

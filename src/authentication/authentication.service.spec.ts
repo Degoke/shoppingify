@@ -10,7 +10,9 @@ describe('AuthenticationService', () => {
   let service: AuthenticationService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule(testingModule).compile();
+    const module: TestingModule = await Test.createTestingModule(
+      testingModule,
+    ).compile();
 
     service = module.get<AuthenticationService>(AuthenticationService);
   });
@@ -20,14 +22,17 @@ describe('AuthenticationService', () => {
   });
 
   it('should validate user', async () => {
-    const response = await service.validateUser(mockLOginDto.email, mockLOginDto.password)
-    expect(response?.user.email).toBe(mockLOginDto.email)
-  })
+    const response = await service.validateUser(
+      mockLOginDto.email,
+      mockLOginDto.password,
+    );
+    expect(response?.user.email).toBe(mockLOginDto.email);
+  });
 
   describe('login', () => {
-    it("should login with valid details", async () => {
-      const response = await service.login(mockLOginDto)
-      expect(response.access_token).toBeDefined()
-    })
-  })
+    it('should login with valid details', async () => {
+      const response = await service.login(mockLOginDto);
+      expect(response.access_token).toBeDefined();
+    });
+  });
 });

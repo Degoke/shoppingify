@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { redisStore } from 'cache-manager-redis-store';
+import { Category } from 'src/category/entities/category.entity';
+import { Item } from 'src/item/entities/item.entity';
 import { Account } from '../../src/account/entities/account.entity';
 
 @Module({
@@ -18,9 +20,7 @@ import { Account } from '../../src/account/entities/account.entity';
         password: configService.get('database.postgres.password'),
         database: configService.get('database.postgres.database'),
         ssl: configService.get('env') === 'production' ? true : false,
-        entities: [
-            Account
-        ],
+        entities: [Account, Item, Category],
         migrations: ['src/database/migrations/**/*.js'],
         cli: {
           migrationsDir: 'src/database/migrations',

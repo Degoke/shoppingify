@@ -13,14 +13,18 @@ describe('AppController (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot({
-        type: 'sqlite',
-      database: 'memory',
-      dropSchema: true,
-      entities: [Account],
-      synchronize: true,
-      logging: false
-      }), AuthenticationModule, AccountModule],
+      imports: [
+        TypeOrmModule.forRoot({
+          type: 'sqlite',
+          database: 'memory',
+          dropSchema: true,
+          entities: [Account],
+          synchronize: true,
+          logging: false,
+        }),
+        AuthenticationModule,
+        AccountModule,
+      ],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -31,44 +35,44 @@ describe('AppController (e2e)', () => {
     const response = await request(app.getHttpServer())
       .post('/v1/authentication/login')
       .send(mockLOginDto)
-      .expect(401)
+      .expect(401);
 
-      expect(response.body.access_token).not.toBeDefined()
+    expect(response.body.access_token).not.toBeDefined();
   });
 
-  it("should return erroe on signup when no email present", async() => {
+  it('should return erroe on signup when no email present', async () => {
     const response = await request(app.getHttpServer())
       .post('/v1/account/create')
-      .send({...mockLOginDto, email: null})
-      .expect(401)
+      .send({ ...mockLOginDto, email: null })
+      .expect(401);
 
-      expect(response.body.email).not.toBeDefined()
-  })
+    expect(response.body.email).not.toBeDefined();
+  });
 
-  it('should create an account with the proper email and password', async() => {
+  it('should create an account with the proper email and password', async () => {
     const response = await request(app.getHttpServer())
       .post('/v1/account/create')
       .send(mockLOginDto)
-      .expect(201)
+      .expect(201);
 
-      expect(response.body.email).toEqual(mockLOginDto.email)
-  })
+    expect(response.body.email).toEqual(mockLOginDto.email);
+  });
 
   it('should return an error on create account when email exists', async () => {
     const response = await request(app.getHttpServer())
-    .post('/v1/account/create')
-    .send(mockLOginDto)
-    .expect(401)
+      .post('/v1/account/create')
+      .send(mockLOginDto)
+      .expect(401);
 
-    expect(response.body.email).not.toBeDefined()
-  })
+    expect(response.body.email).not.toBeDefined();
+  });
 
   it('should login user with correct email and password', async () => {
     const response = await request(app.getHttpServer)
-    .post('/v1/authentication/login')
+      .post('/v1/authentication/login')
       .send(mockLOginDto)
-      .expect(200)
+      .expect(200);
 
-    expect(response.body.access_token).toBeDefined()
-  })
+    expect(response.body.access_token).toBeDefined();
+  });
 });

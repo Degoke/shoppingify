@@ -1,8 +1,13 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreateAccountDto } from './dto/create-account.dto';
 import { UpdateAccountDto } from './dto/update-account.dto';
 import { AccountRepository } from './repositories/account.repository';
-import * as bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AccountService {
@@ -18,24 +23,33 @@ export class AccountService {
 
   async createAccount(createAccountDto: CreateAccountDto) {
     try {
-      const existingAccount = await this.accountRepository.findByEmail(createAccountDto.email)
+      const existingAccount = await this.accountRepository.findByEmail(
+        createAccountDto.email,
+      );
 
       if (existingAccount) {
-        throw new BadRequestException("Email already in use")
+        throw new BadRequestException('Email already in use');
       }
 
-      const password = await bcrypt.hash(createAccountDto.password, 10)
+      const password = await bcrypt.hash(createAccountDto.password, 10);
 
       const newAccount = await this.accountRepository.create({
         ...createAccountDto,
-        password
+        password,
       });
       await this.accountRepository.save(newAccount);
 
-      return newAccount
-    } catch(error) {
-      throw error
+      return newAccount;
+    } catch (error) {
+      throw error;
     }
+  }
 
+  async findOne(id: string) {
+    try {
+      return await this.accountRepository.findOneBy({ id });
+    } catch (error) {
+      throw error;
+    }
   }
 }

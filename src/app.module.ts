@@ -25,10 +25,10 @@ import { CategoryModule } from './category/category.module';
     }),
     ThrottlerModule.forRoot({
       ttl: 60,
-      limit: 10
+      limit: 10,
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", 'public')
+      rootPath: join(__dirname, '..', 'public'),
     }),
     DatabaseModule,
     LogsModule,
@@ -39,6 +39,9 @@ import { CategoryModule } from './category/category.module';
     CategoryModule,
   ],
   controllers: [],
-  providers: [{ provide: APP_GUARD, useClass: JwtAuthGaurd }, { provide: APP_GUARD, useClass: ThrottlerBehindProxyGaurd }],
+  providers: [
+    { provide: APP_GUARD, useClass: JwtAuthGaurd },
+    { provide: APP_GUARD, useClass: ThrottlerBehindProxyGaurd },
+  ],
 })
 export class AppModule {}

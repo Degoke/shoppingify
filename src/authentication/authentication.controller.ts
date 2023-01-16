@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Logger,
+  Request,
 } from '@nestjs/common';
 import { Public } from '../../src/common/decorators/public.decorator';
 import { LocalAuthGaurd } from '../../src/common/gaurds/local_auth.gaurd';
@@ -21,7 +22,7 @@ export class AuthenticationController {
   @UseGuards(LocalAuthGaurd)
   @Public()
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
-    return this.authenticationService.login(loginDto);
+  login(@Request() req: any) {
+    return this.authenticationService.login(req.user);
   }
 }

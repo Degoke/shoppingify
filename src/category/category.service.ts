@@ -1,26 +1,66 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { AccountService } from 'src/account/account.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CategoryRepository } from './repositories/category.repository';
 
 @Injectable()
 export class CategoryService {
-  create(createCategoryDto: CreateCategoryDto) {
-    return 'This action adds a new category';
+  constructor(
+    private categoryRepository: CategoryRepository,
+    private accountService: AccountService,
+  ) {}
+  async create(createCategoryDto: CreateCategoryDto, userId: string) {
+    try {
+      const account = await this.accountService.findOne(userId);
+
+      if (!account) {
+        throw new BadRequestException('Account not found');
+      }
+      const existingName = await this.categoryRepository.findOne({
+        where: {
+          name: createCategoryDto.name,
+          account: {
+            id: userId,
+          },
+        },
+      });
+      if (existingName) {
+        throw new BadRequestException(
+          `Category with name ${existingName.name} already exists`,
+        );
+      }
+      const category = await this.categoryRepository.create({
+        ...createCategoryDto,
+        account,
+      });
+      await this.categoryRepository.save(category);
+      return category;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  findAll() {
-    return `This action returns all category`;
+  async findAll(userId: string) {
+    try {
+      return await this.categoryRepository.find({
+        relations: ['items'],
+        where: {
+          account: {
+            id: userId,
+          },
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
-  }
-
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async findOne(id: string) {
+    try {
+      return await this.categoryRepository.findOneBy({ id });
+    } catch (error) {
+      throw error;
+    }
   }
 }

@@ -7,7 +7,9 @@ describe('AccountController', () => {
   let controller: AccountController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule(testingModule).compile();
+    const module: TestingModule = await Test.createTestingModule(
+      testingModule,
+    ).compile();
 
     controller = module.get<AccountController>(AccountController);
   });

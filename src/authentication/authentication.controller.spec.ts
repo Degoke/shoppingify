@@ -12,7 +12,9 @@ describe('AuthenticationController', () => {
   let controller: AuthenticationController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule(testingModule).compile();
+    const module: TestingModule = await Test.createTestingModule(
+      testingModule,
+    ).compile();
 
     controller = module.get<AuthenticationController>(AuthenticationController);
   });
@@ -21,10 +23,10 @@ describe('AuthenticationController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe("login", () => {
-    it("should login user with correct details", async () => {
-      const response = await controller.login(mockLOginDto)
-      expect(response?.access_token).toBeDefined()
-    })
-  })
+  describe('login', () => {
+    it('should login user with correct details', async () => {
+      const response = await controller.login(mockLOginDto);
+      expect(response?.access_token).toBeDefined();
+    });
+  });
 });
