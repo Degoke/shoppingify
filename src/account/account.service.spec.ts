@@ -1,6 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { resolveSoa } from 'dns';
 import { mockLOginDto } from '../../src/authentication/mock';
 import { AccountService } from './account.service';
 import { Account } from './entities/account.entity';
@@ -38,7 +37,7 @@ describe('AccountService', () => {
 
     it('should create account when email does not exist', async () => {
       accountRepository.findByEmail = jest.fn(
-        (email) => new Promise((resolve) => resolve(null)),
+        () => new Promise((resolve) => resolve(null)),
       );
       const response = await service.createAccount(mockCreateAccountDto);
       expect(response.email).toBe(mockCreateAccountDto.email);
